@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { pb } from "../lib/pocketbase";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { SignUpForm } from "./SignUp";
+import * as S from "./SignUp.style";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -23,41 +23,58 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <LoginForm>
-        username
-        <input
-          value={username}
-          name="username"
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="username"
-          required="required"
-        />
-        비밀번호
-        <input
-          value={password}
-          name="password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required="required"
-        />
-        <Button>
-          <button onClick={(e) => handleSubmit(e)}>로그인</button>
-          <button onClick={() => navigate("/signup")}>회원가입</button>
-        </Button>
-      </LoginForm>
-    </div>
+    <S.UserContainer>
+      <S.UserGrid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <h2 style={{ marginTop: -10 }}>✍🏻</h2>
+        <InputBox>
+          <S.UserInput
+            value={username}
+            name="username"
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="username"
+          />
+          <S.UserInput
+            value={password}
+            name="password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+        </InputBox>
+
+        <S.UserButton variant="outlined" onClick={(e) => handleSubmit(e)}>
+          로그인
+        </S.UserButton>
+        <UserText onClick={() => navigate("/signup")}>회원가입 🏃🏻‍♂️</UserText>
+      </S.UserGrid>
+    </S.UserContainer>
   );
 };
 
 export default Login;
 
-const LoginForm = styled(SignUpForm)``;
+const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+`;
 
-const Button = styled.div`
-  button {
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
+const UserText = styled.div`
+  font-size: 0.7rem;
+  margin-top: 4rem;
+  margin-bottom: -5rem;
+  margin-left: 15rem;
+  color: gray;
+
+  &:hover {
+    cursor: pointer;
+    color: #0062cc;
   }
 `;

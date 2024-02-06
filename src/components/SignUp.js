@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { pb } from "../lib/pocketbase";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+
+import * as S from "./SignUp.style";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -31,59 +32,49 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <SignUpForm>
-        username
-        <input
+    <S.UserContainer fixed autoComplete="on">
+      <S.UserGrid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <h2>✍🏻</h2>
+        <S.UserInput
           value={username}
           name="username"
           onChange={(e) => setUsername(e.target.value)}
           placeholder="username"
-          required="required"
         />
-        비밀번호
-        <input
+
+        <S.UserInput
           value={password}
           name="password"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required="required"
+          placeholder="password"
         />
-        비밀번호 확인
-        <input
+
+        <S.UserInput
           value={passwordConfirm}
           name="passwordConfirm"
           type="password"
           onChange={(e) => setPasswordConfirm(e.target.value)}
-          placeholder="Password"
-          required="required"
+          placeholder="password confirm"
         />
-        이메일
-        <input
+
+        <S.UserInput
           value={email}
           name="email"
           onChange={(e) => setEmail(e.target.value)}
           placeholder="email"
-          required="required"
         />
-        <button onClick={(e) => handleSubmit(e)}>회원가입</button>
-      </SignUpForm>
-    </div>
+        <S.UserButton variant="outlined" onClick={(e) => handleSubmit(e)}>
+          회원가입
+        </S.UserButton>
+      </S.UserGrid>
+    </S.UserContainer>
   );
 };
 
 export default SignUp;
-
-export const SignUpForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  margin-top: 10rem;
-
-  input {
-    margin-top: 0.2rem;
-    margin-bottom: 1rem;
-  }
-`;
