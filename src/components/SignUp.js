@@ -32,7 +32,7 @@ const SignUp = () => {
   };
 
   return (
-    <S.UserContainer fixed autoComplete="on">
+    <S.UserContainer autoComplete="on">
       <S.UserGrid
         container
         direction="column"

@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { pb } from "../lib/pocketbase";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import * as S from "./SignUp.style";
+import { useDispatch, useSelector } from "react-redux";
+import { setPassword, setUsername } from "../redux/loginSlice";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { username, password } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,14 +37,14 @@ const Login = () => {
           <S.UserInput
             value={username}
             name="username"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => dispatch(setUsername(e.target.value))}
             placeholder="username"
           />
           <S.UserInput
             value={password}
             name="password"
             type="password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => dispatch(setPassword(e.target.value))}
             placeholder="Password"
           />
         </InputBox>
