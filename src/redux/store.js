@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loginReducer from "./loginSlice";
 import dateReducer from "./dateSlice";
+import postsReducer from "./postsSlice";
 
 const store = configureStore({
   reducer: {
-    user: loginReducer,
+    login: loginReducer,
     date: dateReducer,
+    posts: postsReducer,
   },
 });
 

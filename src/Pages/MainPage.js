@@ -10,9 +10,9 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import { resetDate, setDate } from "../redux/dateSlice";
 import dayjs from "dayjs";
+import TILdata from "../components/TILdata";
 
 const MainPage = () => {
-  const { username } = useSelector((state) => state.user);
   const date = useSelector((state) => state.date.date);
 
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ const MainPage = () => {
 
   return (
     <Container>
-      <p>{username}님 로그인 ing .. 💭</p>
+      <p>{pb.authStore.model.username}님 로그인 ing .. 💭</p>
       <button onClick={logout}>로그아웃</button>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={["StaticDatePicker"]}>
@@ -43,6 +43,7 @@ const MainPage = () => {
           </DemoItem>
         </DemoContainer>
       </LocalizationProvider>
+      <TILdata />
     </Container>
   );
 };
