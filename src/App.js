@@ -3,6 +3,8 @@ import "./App.css";
 import SignUp from "./components/SignUp";
 import MainPage from "./Pages/MainPage";
 import Login from "./components/Login";
+import Profile from "./Pages/Profile";
+import Question from "./Pages/Question";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/question/:date" element={<Question />} />
         </Routes>
       </BrowserRouter>
     </div>

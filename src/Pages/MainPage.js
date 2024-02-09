@@ -4,13 +4,11 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { resetLoginForm } from "../redux/loginSlice";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
-import { resetDate, setDate } from "../redux/dateSlice";
-import dayjs from "dayjs";
-import TILdata from "../components/TILdata";
+import { resetDate } from "../redux/dateSlice";
+
+import Posts from "../components/Posts";
+import Message from "../components/Message";
+import DatePicker from "../components/\bDatePicker";
 
 const MainPage = () => {
   const date = useSelector((state) => state.date.date);
@@ -31,19 +29,27 @@ const MainPage = () => {
 
   return (
     <Container>
-      <p>{pb.authStore.model.username}님 로그인 ing .. 💭</p>
-      <button onClick={logout}>로그아웃</button>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={["StaticDatePicker"]}>
-          <DemoItem>
-            <StaticDatePicker
-              value={dayjs(date)}
-              onChange={(e) => dispatch(setDate(e.format("YYYY-MM-DD")))}
-            />
-          </DemoItem>
-        </DemoContainer>
-      </LocalizationProvider>
-      <TILdata />
+      <HeaderWrapper>
+        <LogoBox>
+          <h3>RUNLEARN</h3>
+        </LogoBox>
+        <IconBox>
+          <img
+            src="/images/question.png"
+            alt="question"
+            onClick={() => navigate(`/question/${date}`)}
+          />
+          <img
+            src="/images/user-profile.png"
+            alt="user-profile"
+            //onClick={() => navigate("/profile")}
+            onClick={logout}
+          />
+        </IconBox>
+      </HeaderWrapper>
+      <Message />
+      <Posts />
+      <DatePicker />
     </Container>
   );
 };
@@ -55,5 +61,22 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
-  margin-top: 10rem;
+  margin-top: 4rem;
+`;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const LogoBox = styled.div`
+  color: #6c6c6c;
+`;
+
+const IconBox = styled.div`
+  margin-left: 11.5rem;
+  img {
+    margin-left: 0.6rem;
+  }
 `;
