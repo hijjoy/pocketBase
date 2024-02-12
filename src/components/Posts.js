@@ -4,6 +4,7 @@ import { pb } from "../lib/pocketbase";
 import { setPosts } from "../redux/postsSlice";
 import { useNavigate } from "react-router-dom";
 import * as P from "./Posts.style";
+import { headers } from "../lib/headers";
 
 const Posts = () => {
   const date = useSelector((state) => state.date.date);
@@ -14,10 +15,6 @@ const Posts = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const headers = {
-      Authorization: process.env.REACT_APP_AUTH_TOKEN,
-    };
-
     const fetchData = async () => {
       const filter = `user="${pb.authStore.model.id}"`;
 

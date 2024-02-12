@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { pb } from "../lib/pocketbase";
+import { headers } from "../lib/headers";
 
 const Message = () => {
   const [message, setMessage] = useState("🧐 배움이 있는 알찬 하루가 되기를 !");
@@ -8,11 +9,6 @@ const Message = () => {
   const [messageId, setMessageId] = useState();
 
   const [editMessage, setEditMessage] = useState("");
-
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: process.env.REACT_APP_AUTH_TOKEN,
-  };
 
   useEffect(() => {
     const filter = `user="${pb.authStore.model.id}"`;

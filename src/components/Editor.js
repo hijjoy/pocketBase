@@ -5,6 +5,7 @@ import { Container, HeaderWrapper } from "../Pages/MainPage.style";
 import { Icon1, PostsContaioner } from "./Posts.style";
 import { useSelector } from "react-redux";
 import { pb } from "../lib/pocketbase";
+import { headers } from "../lib/headers";
 
 const Editor = () => {
   const date = useSelector((state) => state.date.date);
@@ -17,11 +18,6 @@ const Editor = () => {
   const [question, setQuestion] = useState("");
 
   const navigate = useNavigate();
-
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: process.env.REACT_APP_AUTH_TOKEN,
-  };
 
   const createPost = async () => {
     const data = {
