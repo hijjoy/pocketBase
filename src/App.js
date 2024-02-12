@@ -5,6 +5,7 @@ import MainPage from "./Pages/MainPage";
 import Login from "./components/Login";
 import Profile from "./Pages/Profile";
 import Question from "./Pages/Question";
+import CreatePage from "./Pages/CreatePage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/question/:date" element={<Question />} />
+          <Route path="/create" element={<CreatePage />} />
         </Routes>
       </BrowserRouter>
     </div>

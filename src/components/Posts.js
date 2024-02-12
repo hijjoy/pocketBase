@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { pb } from "../lib/pocketbase";
 import { setPosts } from "../redux/postsSlice";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Posts = () => {
   const date = useSelector((state) => state.date.date);
@@ -10,6 +11,7 @@ const Posts = () => {
 
   const textBoxRef = useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const headers = {
@@ -27,7 +29,6 @@ const Posts = () => {
 
       const selectData = data.items.filter((e) => e.date === date);
       dispatch(setPosts(selectData));
-      //setPosts(selectData);
     };
 
     fetchData();
@@ -44,22 +45,35 @@ const Posts = () => {
     }
   }, [posts, textBoxRef.current]);
 
-  return (
-    <PostsContaioner id="PostsContaioner">
-      {posts.map((post) => (
-        <div key={post.id}>
-          <IconWrapper>
-            <Icon1>{post.field}</Icon1>
-            <Icon2>{post.date}</Icon2>
-          </IconWrapper>
-          <TextWrapper ref={textBoxRef}>
-            <TextBox> 📍 {post.title}</TextBox>
-            <TextBox2>{post.content}</TextBox2>
-          </TextWrapper>
-        </div>
-      ))}
-    </PostsContaioner>
-  );
+  if (posts.length === 0) {
+    return (
+      <NoPostsContaioner>
+        <h5> 오늘 공부한 내용을 기록해보세요 !</h5>
+        <img
+          src="/images/createBtn.png"
+          alt="create"
+          onClick={() => navigate("/create")}
+        />
+      </NoPostsContaioner>
+    );
+  } else {
+    return (
+      <PostsContaioner id="PostsContaioner">
+        {posts.map((post) => (
+          <div key={post.id}>
+            <IconWrapper>
+              <Icon1>{post.field}</Icon1>
+              <Icon2>{post.date}</Icon2>
+            </IconWrapper>
+            <TextWrapper ref={textBoxRef}>
+              <TextBox> 📍 {post.title}</TextBox>
+              <TextBox2>{post.content}</TextBox2>
+            </TextWrapper>
+          </div>
+        ))}
+      </PostsContaioner>
+    );
+  }
 };
 
 export default Posts;
@@ -70,13 +84,26 @@ const PostsContaioner = styled.div`
   background: #fefefe;
 
   width: 333px;
-  //height: 222px;
 
   flex-shrink: 0;
 
   margin-top: 1rem;
 
   position: relative;
+`;
+
+const NoPostsContaioner = styled(PostsContaioner)`
+  height: 95px;
+  h5 {
+    position: absolute;
+    left: 5rem;
+  }
+
+  img {
+    position: absolute;
+    top: 3rem;
+    left: 8rem;
+  }
 `;
 
 const IconWrapper = styled.div`
