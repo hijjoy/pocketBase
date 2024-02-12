@@ -1,7 +1,12 @@
 import React from "react";
+import Editor from "../components/Editor";
 
 const CreatePage = () => {
-  return <div>글 생성 페이지</div>;
+  return (
+    <div>
+      <Editor />
+    </div>
+  );
 };
 
 export default CreatePage;

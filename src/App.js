@@ -17,7 +17,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/question/:date" element={<Question />} />
-          <Route path="/create" element={<CreatePage />} />
+          <Route path="/create/:date" element={<CreatePage />} />
         </Routes>
       </BrowserRouter>
     </div>
