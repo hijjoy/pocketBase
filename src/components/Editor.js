@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { Container, HeaderWrapper } from "../Pages/MainPage.style";
-import { Icon1, PostsContaioner } from "./Posts.style";
+import { Container } from "../Pages/MainPage.style";
 import { useDispatch, useSelector } from "react-redux";
 import { pb } from "../lib/pocketbase";
 import { headers } from "../lib/headers";
 import { setContent, setQuestion, setTitle } from "../redux/postsSlice";
+import * as E from "../components/Editor.style";
 
 const Editor = ({ isEdit }) => {
   const date = useSelector((state) => state.date.date);
@@ -68,10 +67,10 @@ const Editor = ({ isEdit }) => {
 
   return (
     <Container>
-      <EditorHeaderWrapper>
+      <E.EditorHeaderWrapper>
         <img src="/images/nav.png" alt="nav" onClick={() => navigate(-1)} />
-        <EditorWrapper>
-          <EditLogoBox>
+        <E.EditorWrapper>
+          <E.EditLogoBox>
             <img src="/images/runrun.png" alt="logo" />
             {isEdit ? (
               <div>
@@ -84,9 +83,9 @@ const Editor = ({ isEdit }) => {
                 내용을 기록해보세요 !
               </div>
             )}
-          </EditLogoBox>
+          </E.EditLogoBox>
 
-          <EditorBox1>
+          <E.EditorBox1>
             <img src="/images/title.png" alt="title" />
             <input
               type="text"
@@ -94,16 +93,16 @@ const Editor = ({ isEdit }) => {
               onChange={(e) => dispatch(setTitle(e.target.value))}
               value={title}
             />
-          </EditorBox1>
-          <EditorBox2>
+          </E.EditorBox1>
+          <E.EditorBox2>
             <img src="/images/content.png" alt="content" />
             <textarea
               name="content"
               onChange={(e) => dispatch(setContent(e.target.value))}
               value={content}
             />
-          </EditorBox2>
-          <EditorBox3>
+          </E.EditorBox2>
+          <E.EditorBox3>
             <img src="/images/Q.png" alt="question" />
             <input
               type="text"
@@ -111,9 +110,9 @@ const Editor = ({ isEdit }) => {
               onChange={(e) => dispatch(setQuestion(e.target.value))}
               value={question}
             />
-          </EditorBox3>
-          <PickBox>
-            <PickBtn
+          </E.EditorBox3>
+          <E.PickBox>
+            <E.PickBtn
               $clicked={isClicked1}
               onClick={() => {
                 setIsClicked1(!isClicked1);
@@ -122,8 +121,8 @@ const Editor = ({ isEdit }) => {
               }}
             >
               😊 완전 이해했어요
-            </PickBtn>
-            <PickBtn
+            </E.PickBtn>
+            <E.PickBtn
               $clicked={isClicked2}
               onClick={() => {
                 setIsClicked2(!isClicked2);
@@ -132,8 +131,8 @@ const Editor = ({ isEdit }) => {
               }}
             >
               😐조금 이해했어요
-            </PickBtn>
-            <PickBtn
+            </E.PickBtn>
+            <E.PickBtn
               $clicked={isClicked3}
               onClick={() => {
                 setIsClicked3(!isClicked3);
@@ -142,140 +141,17 @@ const Editor = ({ isEdit }) => {
               }}
             >
               😥 잘 모르겠어요
-            </PickBtn>
-          </PickBox>
+            </E.PickBtn>
+          </E.PickBox>
           {isEdit ? (
-            <SubmitBox onClick={editPost}>기록 수정하기</SubmitBox>
+            <E.SubmitBox onClick={editPost}>기록 수정하기</E.SubmitBox>
           ) : (
-            <SubmitBox onClick={createPost}>공부 기록하기</SubmitBox>
+            <E.SubmitBox onClick={createPost}>공부 기록하기</E.SubmitBox>
           )}
-        </EditorWrapper>
-      </EditorHeaderWrapper>
+        </E.EditorWrapper>
+      </E.EditorHeaderWrapper>
     </Container>
   );
 };
 
 export default Editor;
-
-const EditorWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const EditorHeaderWrapper = styled(HeaderWrapper)`
-  margin-top: 1rem;
-  margin-right: 20rem;
-
-  position: relative;
-`;
-
-const EditLogoBox = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-
-  width: 333px;
-
-  position: absolute;
-  top: 2.5rem;
-  left: 1.4rem;
-
-  img {
-    margin-right: 1.3rem;
-  }
-
-  div {
-    letter-spacing: -0.2px;
-    line-height: 21px; // 글자 상하 간격
-    font-size: 0.7rem;
-    font-weight: bold;
-  }
-`;
-
-const EditorBox1 = styled(PostsContaioner)`
-  position: absolute;
-  top: 6rem;
-  left: 0.25rem;
-
-  height: 104px;
-
-  img {
-    position: absolute;
-    top: 0.8rem;
-    left: 8.5rem;
-  }
-
-  input {
-    border: none;
-    outline: none;
-    border-bottom: 1px solid #cfcfcf;
-    width: 268px;
-
-    position: absolute;
-    top: 4rem;
-    left: 2rem;
-
-    font-weight: 600;
-  }
-`;
-
-const EditorBox2 = styled(EditorBox1)`
-  top: 13.5rem;
-  height: 222px;
-
-  img {
-    left: 7.5rem;
-  }
-
-  textarea {
-    border: none;
-    outline: none;
-    border-bottom: 1px solid #cfcfcf;
-
-    position: absolute;
-    top: 4.5rem;
-    left: 2rem;
-
-    width: 265px;
-    height: 110px;
-  }
-`;
-
-const EditorBox3 = styled(EditorBox1)`
-  top: 28.3rem;
-`;
-
-const PickBox = styled.div`
-  position: absolute;
-  top: 36.8rem;
-  left: 0.38rem;
-
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-`;
-
-const PickBtn = styled(Icon1)`
-  background-color: ${(props) => (props.$clicked ? "#DEE3F3" : "#EBEBEB")};
-  width: 105.5px;
-  height: 44px;
-
-  font-size: 0.6rem;
-  line-height: 2.6rem;
-`;
-
-const SubmitBox = styled(Icon1)`
-  position: absolute;
-  top: 40.5rem;
-  left: 0.38rem;
-
-  width: 333px;
-  height: 47px;
-  flex-shrink: 0;
-  color: #fff;
-  background: #697082;
-
-  font-size: 0.8rem;
-  line-height: 2.8rem;
-`;
