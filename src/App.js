@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Profile from "./Pages/Profile";
 import Question from "./Pages/Question";
 import CreatePage from "./Pages/CreatePage";
+import EditPage from "./Pages/EditPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/question/:date" element={<Question />} />
           <Route path="/create/:date" element={<CreatePage />} />
+          <Route path="/edit/:date" element={<EditPage />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -4,6 +4,7 @@ import { pb } from "../lib/pocketbase";
 import {
   setContent,
   setField,
+  setId,
   setQuestion,
   setReset,
   setTitle,
@@ -37,6 +38,7 @@ const Posts = () => {
         dispatch(setContent(selectData[0].content));
         dispatch(setQuestion(selectData[0].question));
         dispatch(setField(selectData[0].field));
+        dispatch(setId(selectData[0].id));
       } else {
         dispatch(setReset());
       }

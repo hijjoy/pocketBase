@@ -4,7 +4,7 @@ import Editor from "../components/Editor";
 const CreatePage = () => {
   return (
     <div>
-      <Editor />
+      <Editor isEdit={false} />
     </div>
   );
 };

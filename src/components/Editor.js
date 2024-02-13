@@ -3,19 +3,22 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Container, HeaderWrapper } from "../Pages/MainPage.style";
 import { Icon1, PostsContaioner } from "./Posts.style";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { pb } from "../lib/pocketbase";
 import { headers } from "../lib/headers";
+import { setContent, setQuestion, setTitle } from "../redux/postsSlice";
 
-const Editor = () => {
+const Editor = ({ isEdit }) => {
   const date = useSelector((state) => state.date.date);
+
   const [isClicked1, setIsClicked1] = useState(false);
   const [isClicked2, setIsClicked2] = useState(false);
   const [isClicked3, setIsClicked3] = useState(false);
 
-  const [title, setTitle] = useState("");
-  const [content, setConenet] = useState("");
-  const [question, setQuestion] = useState("");
+  const { title, content, question, field, id } = useSelector(
+    (state) => state.posts
+  );
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -41,6 +44,28 @@ const Editor = () => {
     navigate(-1, { replace: true });
   };
 
+  const editPost = async () => {
+    const data = {
+      date: date,
+      title: title,
+      content: content,
+      question: question,
+      field: isClicked1
+        ? "😊 완전 이해했어요"
+        : isClicked2
+        ? "😐조금 이해했어요"
+        : "😥 잘 모르겠어요",
+      user: pb.authStore.model.id,
+    };
+    await fetch(`http://127.0.0.1:8090/api/collections/posts/records/${id}`, {
+      method: "PATCH",
+      headers: headers,
+      body: JSON.stringify(data),
+    });
+
+    navigate(-1, { replace: true });
+  };
+
   return (
     <Container>
       <EditorHeaderWrapper>
@@ -48,10 +73,17 @@ const Editor = () => {
         <EditorWrapper>
           <EditLogoBox>
             <img src="/images/runrun.png" alt="logo" />
-            <div>
-              {pb.authStore.model.username} 님께서 <br />“{date}”에 공부하신
-              내용을 기록해보세요 !
-            </div>
+            {isEdit ? (
+              <div>
+                {pb.authStore.model.username} 님께서 <br />“{date}”에 공부하신
+                내용을 수정해보세요 !
+              </div>
+            ) : (
+              <div>
+                {pb.authStore.model.username} 님께서 <br />“{date}”에 공부하신
+                내용을 기록해보세요 !
+              </div>
+            )}
           </EditLogoBox>
 
           <EditorBox1>
@@ -59,14 +91,16 @@ const Editor = () => {
             <input
               type="text"
               name="title"
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => dispatch(setTitle(e.target.value))}
+              value={title}
             />
           </EditorBox1>
           <EditorBox2>
             <img src="/images/content.png" alt="content" />
             <textarea
               name="content"
-              onChange={(e) => setConenet(e.target.value)}
+              onChange={(e) => dispatch(setContent(e.target.value))}
+              value={content}
             />
           </EditorBox2>
           <EditorBox3>
@@ -74,7 +108,8 @@ const Editor = () => {
             <input
               type="text"
               name="question"
-              onChange={(e) => setQuestion(e.target.value)}
+              onChange={(e) => dispatch(setQuestion(e.target.value))}
+              value={question}
             />
           </EditorBox3>
           <PickBox>
@@ -109,7 +144,11 @@ const Editor = () => {
               😥 잘 모르겠어요
             </PickBtn>
           </PickBox>
-          <SubmitBox onClick={createPost}>공부 기록하기</SubmitBox>
+          {isEdit ? (
+            <SubmitBox onClick={editPost}>기록 수정하기</SubmitBox>
+          ) : (
+            <SubmitBox onClick={createPost}>공부 기록하기</SubmitBox>
+          )}
         </EditorWrapper>
       </EditorHeaderWrapper>
     </Container>

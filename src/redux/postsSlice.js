@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  date: "",
+  id: "",
   title: "",
   content: "",
   question: "",
@@ -24,26 +24,18 @@ const postsSlice = createSlice({
     setField: (state, action) => {
       state.field = action.payload;
     },
-    setDate: (state, action) => {
-      state.date = action.payload;
+    setId: (state, action) => {
+      state.id = action.payload;
     },
-
     setReset: (state) => {
       state.title = "";
       state.content = "";
       state.question = "";
       state.field = "";
-      state.date = "";
     },
   },
 });
 
-export const {
-  setTitle,
-  setContent,
-  setQuestion,
-  setField,
-  setDate,
-  setReset,
-} = postsSlice.actions;
+export const { setTitle, setContent, setQuestion, setField, setId, setReset } =
+  postsSlice.actions;
 export default postsSlice.reducer;

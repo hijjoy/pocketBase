@@ -20,9 +20,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const Profile = () => {
   const [isEdit, setIsEdit] = useState(false);
 
-  const [oldPassword, setOldPassword] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+  // const [oldPassword, setOldPassword] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const { username } = useSelector((state) => state.login);
   const { date } = useSelector((state) => state.date);
@@ -44,25 +44,25 @@ const Profile = () => {
   };
 
   // 404 error
-  const updatePassword = async () => {
-    console.log(password, passwordConfirm, oldPassword);
-    const data = {
-      password: password,
-      passwordConfirm: passwordConfirm,
-      oldPassword: oldPassword,
-    };
+  // const updatePassword = async () => {
+  //   console.log(password, passwordConfirm, oldPassword);
+  //   const data = {
+  //     password: password,
+  //     passwordConfirm: passwordConfirm,
+  //     oldPassword: oldPassword,
+  //   };
 
-    try {
-      await pb.collection("users").update(pb.authStore.model.id, data);
-    } catch (e) {
-      console.log(e);
-    }
+  //   try {
+  //     await pb.collection("users").update(pb.authStore.model.id, data);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
 
-    // 초기화 ?
-    setPassword("");
-    setPasswordConfirm("");
-    setOldPassword("");
-  };
+  //   // 초기화 ?
+  //   setPassword("");
+  //   setPasswordConfirm("");
+  //   setOldPassword("");
+  // };
 
   return (
     <Container>
@@ -126,21 +126,21 @@ const Profile = () => {
                   <input
                     type="password"
                     placeholder="이전 비밀번호"
-                    onChange={(e) => setOldPassword(e.target.value)}
+                    //onChange={(e) => setOldPassword(e.target.value)}
                   />
                   <input
                     type="password"
                     placeholder="새 비밀번호"
-                    onChange={(e) => setPassword(e.target.value)}
+                    //onChange={(e) => setPassword(e.target.value)}
                   />
                   <input
                     type="password"
                     placeholder="비밀번호 확인"
-                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                    //onChange={(e) => setPasswordConfirm(e.target.value)}
                   />
                 </InputBox>
                 <ButtonBox>
-                  <button onClick={updatePassword}>change</button>
+                  <button>change</button>
                 </ButtonBox>
               </TypographyContent>
             </AccordionDetails>
