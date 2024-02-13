@@ -124,7 +124,7 @@ const EditorWrapper = styled.div`
   align-items: center;
 `;
 
-const EditorHeaderWrapper = styled(HeaderWrapper)`
+export const EditorHeaderWrapper = styled(HeaderWrapper)`
   margin-top: 1rem;
   margin-right: 20rem;
 

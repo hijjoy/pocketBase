@@ -97,7 +97,7 @@ const Message = () => {
 
 export default Message;
 
-const MessageContainer = styled.div`
+export const MessageContainer = styled.div`
   border-radius: 10px;
   background: #98a6cd;
   width: 339px;
