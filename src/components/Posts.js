@@ -1,14 +1,20 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { pb } from "../lib/pocketbase";
-import { setPosts } from "../redux/postsSlice";
+import {
+  setContent,
+  setField,
+  setQuestion,
+  setReset,
+  setTitle,
+} from "../redux/postsSlice";
 import { useNavigate } from "react-router-dom";
 import * as P from "./Posts.style";
 import { headers } from "../lib/headers";
 
 const Posts = () => {
   const date = useSelector((state) => state.date.date);
-  const posts = useSelector((state) => state.posts);
+  const { title, content, field } = useSelector((state) => state.posts);
 
   const textBoxRef = useRef(null);
   const dispatch = useDispatch();
@@ -25,7 +31,15 @@ const Posts = () => {
       const data = await res.json();
 
       const selectData = data.items.filter((e) => e.date === date);
-      dispatch(setPosts(selectData));
+
+      if (selectData.length > 0) {
+        dispatch(setTitle(selectData[0].title));
+        dispatch(setContent(selectData[0].content));
+        dispatch(setQuestion(selectData[0].question));
+        dispatch(setField(selectData[0].field));
+      } else {
+        dispatch(setReset());
+      }
     };
 
     fetchData();
@@ -40,9 +54,9 @@ const Posts = () => {
         container.style.height = `${textBoxHeight}px`;
       }
     }
-  }, [posts, textBoxRef.current]);
+  }, [content, textBoxRef.current]);
 
-  if (posts.length === 0) {
+  if (title === "") {
     return (
       <P.NoPostsContaioner>
         <h5> 오늘 공부한 내용을 기록해보세요 !</h5>
@@ -56,18 +70,21 @@ const Posts = () => {
   } else {
     return (
       <P.PostsContaioner id="PostsContaioner">
-        {posts.map((post) => (
-          <div key={post.id}>
-            <P.IconWrapper>
-              <P.Icon1>{post.field}</P.Icon1>
-              <P.Icon2>{post.date}</P.Icon2>
-            </P.IconWrapper>
-            <P.TextWrapper ref={textBoxRef}>
-              <P.TextBox> 📍 {post.title}</P.TextBox>
-              <P.TextBox2>{post.content}</P.TextBox2>
-            </P.TextWrapper>
-          </div>
-        ))}
+        <div>
+          <P.IconWrapper>
+            <P.Icon1>{field}</P.Icon1>
+            <P.Icon2>{date}</P.Icon2>
+            <img
+              src="/images/cut.png"
+              alt="수정하기"
+              onClick={() => navigate(`/edit/${date}`)}
+            />
+          </P.IconWrapper>
+          <P.TextWrapper ref={textBoxRef}>
+            <P.TextBox> 📍 {title}</P.TextBox>
+            <P.TextBox2>{content}</P.TextBox2>
+          </P.TextWrapper>
+        </div>
       </P.PostsContaioner>
     );
   }
