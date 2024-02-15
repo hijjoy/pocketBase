@@ -6,6 +6,7 @@ import { pb } from "../lib/pocketbase";
 import { headers } from "../lib/headers";
 import { setContent, setQuestion, setTitle } from "../redux/postsSlice";
 import * as E from "../components/Editor.style";
+import request from "../api/request";
 
 const Editor = ({ isEdit }) => {
   const date = useSelector((state) => state.date.date);
@@ -14,9 +15,7 @@ const Editor = ({ isEdit }) => {
   const [isClicked2, setIsClicked2] = useState(false);
   const [isClicked3, setIsClicked3] = useState(false);
 
-  const { title, content, question, field, id } = useSelector(
-    (state) => state.posts
-  );
+  const { title, content, question, id } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -35,7 +34,7 @@ const Editor = ({ isEdit }) => {
       user: pb.authStore.model.id,
     };
 
-    await fetch("http://127.0.0.1:8090/api/collections/posts/records", {
+    await fetch(request.posts, {
       method: "POST",
       headers: headers,
       body: JSON.stringify(data),
@@ -56,7 +55,7 @@ const Editor = ({ isEdit }) => {
         : "😥 잘 모르겠어요",
       user: pb.authStore.model.id,
     };
-    await fetch(`http://127.0.0.1:8090/api/collections/posts/records/${id}`, {
+    await fetch(`${request.posts}/${id}`, {
       method: "PATCH",
       headers: headers,
       body: JSON.stringify(data),

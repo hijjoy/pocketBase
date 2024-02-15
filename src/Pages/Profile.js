@@ -5,6 +5,7 @@ import { pb } from "../lib/pocketbase";
 import { useDispatch, useSelector } from "react-redux";
 import { setUsername } from "../redux/loginSlice";
 import * as P from "./Profile.style";
+import request from "../api/request";
 
 import {
   Accordion,
@@ -47,10 +48,9 @@ const Profile = () => {
     const fetchData = async () => {
       const filter = `user="${pb.authStore.model.id}"`;
 
-      const res = await fetch(
-        `http://127.0.0.1:8090/api/collections/posts/records?filter=${filter}`,
-        { headers: headers }
-      );
+      const res = await fetch(`${request.posts}?filter=${filter}`, {
+        headers: headers,
+      });
       const data = await res.json();
 
       const selectData = data.items.filter(

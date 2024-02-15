@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { pb } from "../lib/pocketbase";
 import { headers } from "../lib/headers";
 import { MessageContainer } from "./Message.style";
+import request from "../api/request";
 
 const Message = () => {
   const [message, setMessage] = useState("🧐 배움이 있는 알찬 하루가 되기를 !");
@@ -13,10 +14,9 @@ const Message = () => {
   useEffect(() => {
     const filter = `user="${pb.authStore.model.id}"`;
     const fetchMessage = async () => {
-      const res = await fetch(
-        `http://127.0.0.1:8090/api/collections/messages/records/?filter=${filter}`,
-        { headers: headers }
-      );
+      const res = await fetch(`${request.messages}/?filter=${filter}`, {
+        headers: headers,
+      });
 
       const data = await res.json();
       const selectData = data.items.map((e) => e.message);
@@ -29,7 +29,7 @@ const Message = () => {
           message: message,
           user: pb.authStore.model.id,
         };
-        await fetch("http://127.0.0.1:8090/api/collections/messages/records", {
+        await fetch(request.messages, {
           method: "POST",
 
           headers: headers,
@@ -51,15 +51,12 @@ const Message = () => {
       message: editMessage,
       user: pb.authStore.model.id,
     };
-    await fetch(
-      `http://127.0.0.1:8090/api/collections/messages/records/${messageId}`,
-      {
-        method: "PATCH",
-        headers: headers,
+    await fetch(`${request.messages}/${messageId}`, {
+      method: "PATCH",
+      headers: headers,
 
-        body: JSON.stringify(data),
-      }
-    );
+      body: JSON.stringify(data),
+    });
 
     setMessage(editMessage);
     setIsEdit(!isEdit);
