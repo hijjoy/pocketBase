@@ -12,6 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import * as P from "./Posts.style";
 import { headers } from "../lib/headers";
+import request from "../api/request";
 
 const Posts = () => {
   const date = useSelector((state) => state.date.date);
@@ -25,10 +26,9 @@ const Posts = () => {
     const fetchData = async () => {
       const filter = `user="${pb.authStore.model.id}"`;
 
-      const res = await fetch(
-        `http://127.0.0.1:8090/api/collections/posts/records?filter=${filter}`,
-        { headers: headers }
-      );
+      const res = await fetch(`${request.posts}?filter=${filter}`, {
+        headers: headers,
+      });
       const data = await res.json();
 
       const selectData = data.items.filter((e) => e.date === date);

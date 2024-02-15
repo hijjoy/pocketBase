@@ -61,7 +61,7 @@ const Profile = () => {
         (e) => e.field === "😊 완전 이해했어요"
       );
       const selectField2 = selectData.filter(
-        (e) => e.field === "😐조금 이해했어요"
+        (e) => e.field === "😐 조금 이해했어요"
       );
       const selectField3 = selectData.filter(
         (e) => e.field === "😥 잘 모르겠어요"

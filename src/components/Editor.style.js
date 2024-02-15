@@ -102,7 +102,7 @@ export const PickBox = styled.div`
 `;
 
 export const PickBtn = styled(Icon1)`
-  background-color: ${(props) => (props.$clicked ? "#DEE3F3" : "#EBEBEB")};
+  background-color: ${(props) => (props.$isSelected ? "#DEE3F3" : "#EBEBEB")};
   width: 105.5px;
   height: 44px;
 

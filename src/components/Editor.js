@@ -1,21 +1,26 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container } from "../Pages/MainPage.style";
 import { useDispatch, useSelector } from "react-redux";
 import { pb } from "../lib/pocketbase";
 import { headers } from "../lib/headers";
-import { setContent, setQuestion, setTitle } from "../redux/postsSlice";
+import {
+  setContent,
+  setField,
+  setQuestion,
+  setTitle,
+} from "../redux/postsSlice";
 import * as E from "../components/Editor.style";
 import request from "../api/request";
+import FieldData from "./FieldData";
+import { know } from "../util/know";
 
 const Editor = ({ isEdit }) => {
   const date = useSelector((state) => state.date.date);
 
-  const [isClicked1, setIsClicked1] = useState(false);
-  const [isClicked2, setIsClicked2] = useState(false);
-  const [isClicked3, setIsClicked3] = useState(false);
-
-  const { title, content, question, id } = useSelector((state) => state.posts);
+  const { title, content, question, id, field } = useSelector(
+    (state) => state.posts
+  );
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -26,11 +31,7 @@ const Editor = ({ isEdit }) => {
       title: title,
       content: content,
       question: question,
-      field: isClicked1
-        ? "😊 완전 이해했어요"
-        : isClicked2
-        ? "😐조금 이해했어요"
-        : "😥 잘 모르겠어요",
+      field: field,
       user: pb.authStore.model.id,
     };
 
@@ -48,11 +49,7 @@ const Editor = ({ isEdit }) => {
       title: title,
       content: content,
       question: question,
-      field: isClicked1
-        ? "😊 완전 이해했어요"
-        : isClicked2
-        ? "😐조금 이해했어요"
-        : "😥 잘 모르겠어요",
+      field: field,
       user: pb.authStore.model.id,
     };
     await fetch(`${request.posts}/${id}`, {
@@ -63,6 +60,10 @@ const Editor = ({ isEdit }) => {
 
     navigate(-1, { replace: true });
   };
+
+  const handleClickField = useCallback((newField) => {
+    dispatch(setField(newField));
+  }, []);
 
   return (
     <Container>
@@ -111,36 +112,14 @@ const Editor = ({ isEdit }) => {
             />
           </E.EditorBox3>
           <E.PickBox>
-            <E.PickBtn
-              $clicked={isClicked1}
-              onClick={() => {
-                setIsClicked1(!isClicked1);
-                setIsClicked2(false);
-                setIsClicked3(false);
-              }}
-            >
-              😊 완전 이해했어요
-            </E.PickBtn>
-            <E.PickBtn
-              $clicked={isClicked2}
-              onClick={() => {
-                setIsClicked2(!isClicked2);
-                setIsClicked1(false);
-                setIsClicked3(false);
-              }}
-            >
-              😐조금 이해했어요
-            </E.PickBtn>
-            <E.PickBtn
-              $clicked={isClicked3}
-              onClick={() => {
-                setIsClicked3(!isClicked3);
-                setIsClicked1(false);
-                setIsClicked2(false);
-              }}
-            >
-              😥 잘 모르겠어요
-            </E.PickBtn>
+            {know.map((e) => (
+              <FieldData
+                key={e.id}
+                description={e.description}
+                click={handleClickField}
+                isSelected={e.description === field}
+              ></FieldData>
+            ))}
           </E.PickBox>
           {isEdit ? (
             <E.SubmitBox onClick={editPost}>기록 수정하기</E.SubmitBox>
