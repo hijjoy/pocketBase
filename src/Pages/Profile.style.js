@@ -72,3 +72,50 @@ export const ButtonBox = styled.div`
     font-weight: 500;
   }
 `;
+
+export const FieldIcon = styled.div`
+  z-index: 2;
+  border-radius: 7px;
+  background-color: #ebebeb;
+  width: 5.5rem;
+  height: 2rem;
+
+  font-size: 0.3rem;
+  color: #7e9adb;
+  text-align: center;
+  line-height: 1.9rem;
+  font-size: 0.5rem !important;
+
+  position: relative;
+  top: 20rem;
+  left: 1.5rem !important;
+`;
+
+export const FieldIcon1 = styled(FieldIcon)`
+  left: 8rem !important;
+`;
+
+export const FieldIcon2 = styled(FieldIcon)`
+  left: 14.5rem !important;
+`;
+
+export const FieldLength = styled.div`
+  z-index: 1;
+  width: 2rem;
+  height: ${(props) => props.$length * 11 + "px"};
+  transform: scaleY(-1);
+  transform-origin: top;
+  background-color: #ffa2a2;
+  border-radius: 7px;
+
+  top: 20.3rem;
+  left: 3.3rem !important;
+`;
+
+export const FieldLength1 = styled(FieldLength)`
+  left: 9.8rem !important;
+`;
+
+export const FieldLength2 = styled(FieldLength)`
+  left: 16.3rem !important;
+`;

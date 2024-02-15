@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "./MainPage.style";
 import { useNavigate } from "react-router-dom";
 import { pb } from "../lib/pocketbase";
@@ -14,9 +14,11 @@ import {
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { headers } from "../lib/headers";
 
 const Profile = () => {
   const [isEdit, setIsEdit] = useState(false);
+  const [fieldsLength, setFieldsLength] = useState([0, 0, 0]);
 
   // const [oldPassword, setOldPassword] = useState("");
   // const [password, setPassword] = useState("");
@@ -40,6 +42,40 @@ const Profile = () => {
 
     setIsEdit(false);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const filter = `user="${pb.authStore.model.id}"`;
+
+      const res = await fetch(
+        `http://127.0.0.1:8090/api/collections/posts/records?filter=${filter}`,
+        { headers: headers }
+      );
+      const data = await res.json();
+
+      const selectData = data.items.filter(
+        (e) => e.date.slice(0, 7) === date.slice(0, 7)
+      );
+
+      const selectField1 = selectData.filter(
+        (e) => e.field === "😊 완전 이해했어요"
+      );
+      const selectField2 = selectData.filter(
+        (e) => e.field === "😐조금 이해했어요"
+      );
+      const selectField3 = selectData.filter(
+        (e) => e.field === "😥 잘 모르겠어요"
+      );
+
+      setFieldsLength([
+        selectField1.length,
+        selectField2.length,
+        selectField3.length,
+      ]);
+    };
+
+    fetchData();
+  }, [date.slice(0, 7), pb.authStore]);
 
   // 404 error
   // const updatePassword = async () => {
@@ -81,18 +117,30 @@ const Profile = () => {
               `👋🏻 ${pb.authStore.model.username}님 안녕하세요 !`
             )}
           </div>
-          {isEdit ? (
-            <img src="/images/check.png" alt="save" onClick={updateUsername} />
-          ) : (
-            <img
-              src="/images/pen.png"
-              alt="pen"
-              onClick={() => setIsEdit(!isEdit)}
-            />
-          )}
+          <div>
+            {isEdit ? (
+              <img
+                src="/images/check.png"
+                alt="save"
+                onClick={updateUsername}
+              />
+            ) : (
+              <img
+                src="/images/pen.png"
+                alt="pen"
+                onClick={() => setIsEdit(!isEdit)}
+              />
+            )}
+          </div>
         </P.ProfileBox>
         <P.ProfileBox2>
           <div>📊 {date.slice(5, 7)}월 이해도 통계를 알려드릴게요 !</div>
+          <P.FieldIcon>😊 완전 이해했어요</P.FieldIcon>
+          <P.FieldLength $length={fieldsLength[0]}></P.FieldLength>
+          <P.FieldIcon1>😐 조금 이해했어요</P.FieldIcon1>
+          <P.FieldLength1 $length={fieldsLength[1]}></P.FieldLength1>
+          <P.FieldIcon2>😥 잘 모르겠어요</P.FieldIcon2>
+          <P.FieldLength2 $length={fieldsLength[2]}></P.FieldLength2>
         </P.ProfileBox2>
         <P.FieldsBox></P.FieldsBox>
         <P.PasswordContainer>
