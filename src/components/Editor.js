@@ -61,9 +61,9 @@ const Editor = ({ isEdit }) => {
     navigate(-1, { replace: true });
   };
 
-  const handleClickField = useCallback((newField) => {
+  const handleClickField = (newField) => {
     dispatch(setField(newField));
-  }, []);
+  };
 
   return (
     <Container>

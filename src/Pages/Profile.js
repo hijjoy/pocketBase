@@ -3,7 +3,14 @@ import { Container } from "./MainPage.style";
 import { useNavigate } from "react-router-dom";
 import { pb } from "../lib/pocketbase";
 import { useDispatch, useSelector } from "react-redux";
-import { setUsername } from "../redux/loginSlice";
+import {
+  resetLoginForm,
+  resetPasswordForm,
+  setOldPassword,
+  setPassword,
+  setPasswordConfirm,
+  setUsername,
+} from "../redux/loginSlice";
 import * as P from "./Profile.style";
 import request from "../api/request";
 
@@ -16,16 +23,16 @@ import {
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { headers } from "../lib/headers";
+import { ClientResponseError } from "pocketbase";
+import { resetDate } from "../redux/dateSlice";
 
 const Profile = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [fieldsLength, setFieldsLength] = useState([0, 0, 0]);
 
-  // const [oldPassword, setOldPassword] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [passwordConfirm, setPasswordConfirm] = useState("");
-
-  const { username } = useSelector((state) => state.login);
+  const { username, password, oldPassword, passwordConfirm } = useSelector(
+    (state) => state.login
+  );
   const { date } = useSelector((state) => state.date);
 
   const navigate = useNavigate();
@@ -77,26 +84,34 @@ const Profile = () => {
     fetchData();
   }, [date.slice(0, 7), pb.authStore]);
 
-  // 404 error
-  // const updatePassword = async () => {
-  //   console.log(password, passwordConfirm, oldPassword);
-  //   const data = {
-  //     password: password,
-  //     passwordConfirm: passwordConfirm,
-  //     oldPassword: oldPassword,
-  //   };
+  const updatePassword = async () => {
+    const data = {
+      password: password,
+      passwordConfirm: passwordConfirm,
+      oldPassword: oldPassword,
+    };
 
-  //   try {
-  //     await pb.collection("users").update(pb.authStore.model.id, data);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
+    try {
+      await pb.collection("users").update(pb.authStore.model.id, data);
+      alert(
+        " ✔️ 비밀번호가 변경되었습니다. 새로운 비밀번호로 다시 로그인하세요 !"
+      );
+      pb.authStore.clear();
+      dispatch(resetLoginForm());
+      dispatch(resetDate());
+      navigate("/", { replace: true });
+    } catch (e) {
+      if (e instanceof ClientResponseError) {
+        alert(
+          "🚨 Error: 입력 값이 올바르지 않습니다. 비밀번호를 다시 확인하세요 🚨"
+        );
+        console.log(e.message);
+      }
+      console.log(e);
+    }
 
-  //   // 초기화 ?
-  //   setPassword("");
-  //   setPasswordConfirm("");
-  //   setOldPassword("");
-  // };
+    dispatch(resetPasswordForm());
+  };
 
   return (
     <Container>
@@ -110,11 +125,11 @@ const Profile = () => {
             {isEdit ? (
               <input
                 type="text"
-                placeholder={pb.authStore.model.username}
+                placeholder={pb.authStore.model?.username || ""}
                 onChange={(e) => dispatch(setUsername(e.target.value))}
               />
             ) : (
-              `👋🏻 ${pb.authStore.model.username}님 안녕하세요 !`
+              `👋🏻 ${pb.authStore.model?.username || ""}님 안녕하세요 !`
             )}
           </div>
           <div>
@@ -172,21 +187,23 @@ const Profile = () => {
                   <input
                     type="password"
                     placeholder="이전 비밀번호"
-                    //onChange={(e) => setOldPassword(e.target.value)}
+                    onChange={(e) => dispatch(setOldPassword(e.target.value))}
                   />
                   <input
                     type="password"
                     placeholder="새 비밀번호"
-                    //onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => dispatch(setPassword(e.target.value))}
                   />
                   <input
                     type="password"
                     placeholder="비밀번호 확인"
-                    //onChange={(e) => setPasswordConfirm(e.target.value)}
+                    onChange={(e) =>
+                      dispatch(setPasswordConfirm(e.target.value))
+                    }
                   />
                 </P.InputBox>
                 <P.ButtonBox>
-                  <button>change</button>
+                  <button onClick={updatePassword}>change</button>
                 </P.ButtonBox>
               </P.TypographyContent>
             </AccordionDetails>
