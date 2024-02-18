@@ -24,7 +24,7 @@ export const EditLogoBox = styled.div`
 
   position: absolute;
   top: 2.5rem;
-  left: 1.4rem;
+  left: 1.5rem;
 
   img {
     margin-right: 1.3rem;

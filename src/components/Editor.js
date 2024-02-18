@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Container } from "../Pages/MainPage.style";
 import { useDispatch, useSelector } from "react-redux";
