@@ -27,6 +27,7 @@ const SignUp = () => {
       alert(`${username}님 회원가입을 축하드립니다 🥳`);
       navigate("/", { replace: true });
     } catch (e) {
+      alert("입력값이 옳지 않습니다 다시 입력하세요");
       console.log(e);
     }
   };

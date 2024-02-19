@@ -2,7 +2,7 @@ import React from "react";
 import { pb } from "../lib/pocketbase";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import * as S from "./SignUp.style";
+import * as S from "../components/SignUp.style";
 import { useDispatch, useSelector } from "react-redux";
 import { setPassword, setUsername } from "../redux/loginSlice";
 
@@ -20,6 +20,7 @@ const Login = () => {
       alert(`${username}님 환영합니다 🤩`);
       navigate("/main", { replace: true });
     } catch (e) {
+      alert("입력값이 옳지 않습니다 다시 입력하세요");
       console.log(e);
     }
   };

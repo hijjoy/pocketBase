@@ -2,11 +2,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import SignUp from "./components/SignUp";
 import MainPage from "./Pages/MainPage";
-import Login from "./components/Login";
+
 import Profile from "./Pages/Profile";
 import Question from "./Pages/Question";
 import CreatePage from "./Pages/CreatePage";
 import EditPage from "./Pages/EditPage";
+import Login from "./Pages/Login";
 
 function App() {
   return (
