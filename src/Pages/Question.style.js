@@ -24,7 +24,7 @@ export const QuestionContainer = styled(PostsContaioner)`
 
 export const FieldPick = styled(PickBox)`
   position: relative;
-  top: 10rem;
+  top: 9rem;
 `;
 
 export const ChatBox = styled.div`
@@ -72,13 +72,13 @@ export const ChatBox3 = styled(ChatBox)`
 
 export const FieldText = styled.h5`
   position: absolute;
-  top: 39.8rem;
+  top: 39.5rem;
   text-align: center;
 `;
 
 export const EditFieldButton = styled.button`
   position: absolute;
-  top: 48rem;
+  top: 47rem;
 
   border: none;
   border-radius: 5px;
